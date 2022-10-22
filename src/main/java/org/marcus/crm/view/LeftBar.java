@@ -35,9 +35,9 @@ public class LeftBar extends TabPane implements ViewObserver {
         Tab customers = new Tab("All Customers");
         customers.closableProperty().set(false);
         customers.onSelectionChangedProperty().set(event -> appController.getCustomerContoller().getCustomerTabs().setCurrentTab(CustomerTab.ALLCUSTOMERS));
-        Tab byCountry = new Tab("By Country");
+        Tab byCountry = new Tab("Add Customer");
         byCountry.closableProperty().set(false);
-        byCountry.onSelectionChangedProperty().set(event -> appController.getCustomerContoller().getCustomerTabs().setCurrentTab(CustomerTab.BYCOUNTRY));
+        byCountry.onSelectionChangedProperty().set(event -> appController.getCustomerContoller().getCustomerTabs().setCurrentTab(CustomerTab.ADDCUSTOMER));
         Tab byBrand = new Tab("By Brand");
         byBrand.closableProperty().set(false);
         byBrand.onSelectionChangedProperty().set(event -> appController.getCustomerContoller().getCustomerTabs().setCurrentTab(CustomerTab.BYBRAND));

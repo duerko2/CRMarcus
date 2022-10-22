@@ -24,57 +24,7 @@ public class CustomersView extends VBox implements ViewObserver{
     public CustomersView(List<Customer> customerList, CustomerController customerController){
         this.customerController=customerController;
 
-        for(int i=0;i<customerList.size();i++){
-            data.add(customerList.get(i));
-        }
-
-
-        table.setEditable(true);
-
-        TableColumn numCol = new TableColumn("Customer Number");
-        numCol.setMinWidth(100);
-        numCol.setCellValueFactory(
-                new PropertyValueFactory<Customer, Integer>("accountNo"));
-
-        TableColumn nameCol = new TableColumn("Customer Name");
-        nameCol.setMinWidth(100);
-        nameCol.setCellValueFactory(
-                new PropertyValueFactory<Customer, String>("accountName"));
-
-        TableColumn countryCol = new TableColumn("Country");
-        countryCol.setMinWidth(100);
-        countryCol.setCellValueFactory(
-                new PropertyValueFactory<Customer, String>("country"));
-
-        TableColumn salesRepCol = new TableColumn("Sales Rep Number");
-        salesRepCol.setMinWidth(100);
-        salesRepCol.setCellValueFactory(
-                new PropertyValueFactory<Customer, Integer>("salesRepId"));
-
-
-
-        table.setItems(data);
-        table.getColumns().addAll(numCol, nameCol, countryCol,salesRepCol);
-
-
-        table.setOnMouseClicked(mouseEvent -> {
-            if(mouseEvent.getButton().equals(MouseButton.PRIMARY)){
-                if(mouseEvent.getClickCount() == 2){
-                    Customer selectedCustomer = (Customer)table.getSelectionModel().getSelectedItem();
-                    //TODO: When double clicked should open window showing details about customer... prev order etc.
-                    System.out.println("Double clicked"+selectedCustomer.getAccountName());
-                }
-            }
-        });
-
-
-
-
-
-
-
-
-        getChildren().addAll(label,table);
+        data.addAll(customerList);
 
         customerController.getCustomerTabs().attach(this);
     }
@@ -82,5 +32,54 @@ public class CustomersView extends VBox implements ViewObserver{
     @Override
     public void updateView(Subject subject) {
 
+        getChildren().clear();
+        switch(customerController.getCustomerTabs().getCurrentTab()){
+            case ALLCUSTOMERS -> allCustomers();
+        }
+    }
+
+    private void allCustomers() {
+
+        if(table.getItems().isEmpty()) {
+            table.setEditable(true);
+
+            TableColumn numCol = new TableColumn("Customer Number");
+            numCol.setMinWidth(100);
+            numCol.setCellValueFactory(
+                    new PropertyValueFactory<Customer, Integer>("accountNo"));
+
+            TableColumn nameCol = new TableColumn("Customer Name");
+            nameCol.setMinWidth(100);
+            nameCol.setCellValueFactory(
+                    new PropertyValueFactory<Customer, String>("accountName"));
+
+            TableColumn countryCol = new TableColumn("Country");
+            countryCol.setMinWidth(100);
+            countryCol.setCellValueFactory(
+                    new PropertyValueFactory<Customer, String>("country"));
+
+            TableColumn salesRepCol = new TableColumn("Sales Rep Number");
+            salesRepCol.setMinWidth(100);
+            salesRepCol.setCellValueFactory(
+                    new PropertyValueFactory<Customer, Integer>("salesRepId"));
+
+
+            table.setItems(data);
+            table.getColumns().addAll(numCol, nameCol, countryCol, salesRepCol);
+
+
+            table.setOnMouseClicked(mouseEvent -> {
+                if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
+                    if (mouseEvent.getClickCount() == 2) {
+                        Customer selectedCustomer = (Customer) table.getSelectionModel().getSelectedItem();
+                        //TODO: When double clicked should open window showing details about customer... prev order etc.
+                        System.out.println("Double clicked" + selectedCustomer.getAccountName());
+                    }
+                }
+            });
+
+
+        }
+        getChildren().addAll(label, table);
     }
 }
