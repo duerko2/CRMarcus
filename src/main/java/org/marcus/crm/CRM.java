@@ -18,8 +18,8 @@ import java.util.List;
 
 
 public class CRM extends Application{
-    private static final int MIN_APP_WIDTH = 600;
-    private static final int MIN_APP_HEIGHT = 600;
+    private static final int MIN_APP_WIDTH = 1000;
+    private static final int MIN_APP_HEIGHT = 800;
 
 
     private Stage stage;
@@ -69,26 +69,6 @@ public class CRM extends Application{
 
     public void removeInsertView() {
         viewRoot.getChildren().clear();
-        stage.sizeToScene();
-    }
-
-    public void createCustomersView() {
-        viewRoot.getChildren().clear();
-        List<Customer> customerList = null;
-        try {
-            customerList = HTTPRequest.getCustomers();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return;
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-            return;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return;
-        }
-        CustomersView customersView = new CustomersView(customerList);
-        viewRoot.setCenter(customersView);
         stage.sizeToScene();
     }
 

@@ -46,7 +46,7 @@ public class MiddleView extends VBox implements ViewObserver {
             }
             case CUSTOMERS -> {
                 try {
-                    getChildren().add(new CustomersView(HTTPRequest.getCustomers()));
+                    getChildren().add(new CustomersView(HTTPRequest.getCustomers(),appController.getCustomerContoller()));
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 } catch (InterruptedException e) {

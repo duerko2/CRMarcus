@@ -1,5 +1,6 @@
 package org.marcus.crm.view;
 
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.*;
@@ -13,9 +14,9 @@ public class BasicView extends HBox implements ViewObserver {
 
     private Button addCustomer;
     private Button seeCustomers;
-    private Pane filler;
+    private VBox filler;
     private TabPane topBar;
-    private VBox leftBar;
+    private TabPane leftBar;
     private VBox middleView;
 
     public BasicView(AppController appController) {
@@ -23,29 +24,34 @@ public class BasicView extends HBox implements ViewObserver {
 
 
 
-        filler = new Pane();
-        filler.setMinWidth(100);
+        // Little blank box in top right corner
+        filler = new VBox();
+        filler.setPrefHeight(30);
 
 
+        // Bar containing the tabs in the top of window
         topBar = new TopBar(appController);
         topBar.setMinWidth(500);
 
-
-
-
-
+        // Bar containing the different options for each topbar tab. Placed on the left-most side of the window
         leftBar = new LeftBar(appController);
-        leftBar.setPrefWidth(100);
-        leftBar.setMaxWidth(100);
+        leftBar.setPrefWidth(30);
+        leftBar.setPrefHeight(800);
 
 
+        // Main view in the middle of the window. Contains different views depending on the top tab and left option.
         middleView = new MiddleView(appController);
+        middleView.setPadding(new Insets(10));
+        middleView.setPrefWidth(1000);
+        middleView.setPrefHeight(800);
 
 
 
-        HBox left = new HBox();
+        VBox left = new VBox();
 
+        left.getChildren().add(filler);
         left.getChildren().add(leftBar);
+        left.setPrefHeight(800);
 
         VBox right = new VBox();
 

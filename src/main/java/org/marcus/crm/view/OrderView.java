@@ -25,9 +25,7 @@ public class OrderView extends VBox {
 
         public OrderView(List<Order> orderList){
 
-            for(int i=0;i<orderList.size();i++){
-                data.add(orderList.get(i));
-            }
+            data.addAll(orderList);
 
 
             table.setEditable(true);
@@ -42,9 +40,9 @@ public class OrderView extends VBox {
             nameCol.setCellValueFactory(new PropertyValueFactory("customer"));
 
 
-            TableColumn countryCol = new TableColumn("Amount");
-            countryCol.setMinWidth(100);
-            countryCol.setCellValueFactory(
+            TableColumn amountCol = new TableColumn("Amount");
+            amountCol.setMinWidth(100);
+            amountCol.setCellValueFactory(
                     new PropertyValueFactory<Order, Integer>("amount"));
 
             TableColumn salesRepCol = new TableColumn("Currency");
@@ -52,10 +50,24 @@ public class OrderView extends VBox {
             salesRepCol.setCellValueFactory(
                     new PropertyValueFactory<Order, String>("currencyName"));
 
+            TableColumn brandCol = new TableColumn("Brand");
+            brandCol.setMinWidth(100);
+            brandCol.setCellValueFactory(
+                    new PropertyValueFactory<Order, String>("brandName"));
+
+            TableColumn areaCol = new TableColumn("Area");
+            areaCol.setMinWidth(100);
+            areaCol.setCellValueFactory(
+                    new PropertyValueFactory<Order, String>("areaName"));
+            TableColumn seasonCol = new TableColumn("Season");
+            seasonCol.setMinWidth(100);
+            seasonCol.setCellValueFactory(
+                    new PropertyValueFactory<Order, String>("seasonId"));
+
 
 
             table.setItems(data);
-            table.getColumns().addAll(numCol, nameCol, countryCol,salesRepCol);
+            table.getColumns().addAll(numCol, nameCol, amountCol,salesRepCol,brandCol,areaCol,seasonCol);
 
 
             table.setOnMouseClicked(mouseEvent -> {

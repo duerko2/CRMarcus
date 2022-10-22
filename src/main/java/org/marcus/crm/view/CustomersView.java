@@ -2,25 +2,27 @@ package org.marcus.crm.view;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
+import org.marcus.crm.controller.CustomerController;
 import org.marcus.crm.model.Customer;
+import org.marcus.crm.observer.Subject;
 
 import java.util.List;
 
-public class CustomersView extends VBox {
+public class CustomersView extends VBox implements ViewObserver{
     private TableView table = new TableView();
     private final ObservableList<Customer> data = FXCollections.observableArrayList();
     private Label label = new Label("All Customers");
+    private CustomerController customerController;
 
 
-    public CustomersView(List<Customer> customerList){
+    public CustomersView(List<Customer> customerList, CustomerController customerController){
+        this.customerController=customerController;
 
         for(int i=0;i<customerList.size();i++){
             data.add(customerList.get(i));
@@ -74,6 +76,11 @@ public class CustomersView extends VBox {
 
         getChildren().addAll(label,table);
 
+        customerController.getCustomerTabs().attach(this);
+    }
+
+    @Override
+    public void updateView(Subject subject) {
 
     }
 }
