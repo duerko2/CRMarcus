@@ -7,17 +7,23 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.VBox;
 import org.marcus.crm.controller.AppController;
-import org.marcus.crm.model.CustomerTab;
+import org.marcus.crm.model.*;
 import org.marcus.crm.observer.Observer;
 import org.marcus.crm.observer.Subject;
 
 public class LeftBar extends TabPane implements ViewObserver {
     private AppController appController;
+    private Tabs tabs;
+    private CustomerTabs customerTabs;
+    private BrandTabs brandTabs;
 
     public LeftBar(AppController appController) {
         this.appController=appController;
+        this.tabs= appController.getTabs();
+        this.customerTabs=appController.getCustomerContoller().getCustomerTabs();
+        this.brandTabs=appController.getBrandController().getBrandTabs();
         setSide(Side.LEFT);
-        appController.getTabs().attach(this);
+        tabs.attach(this);
     }
 
     @Override
@@ -53,6 +59,18 @@ public class LeftBar extends TabPane implements ViewObserver {
     }
     private void brandView(){
         getTabs().clear();
+        for(BrandTab tab : brandTabs.getBrandTabs() ){
+            Tab newTab = new Tab(tab.getBrandName());
+            newTab.closableProperty().set(false);
+            newTab.onSelectionChangedProperty().set(e->brandTabs.setCurrentTab(tab));
+            getTabs().add(newTab);
+            System.out.println(tab.getBrandName());
+        }
+        Tab addTab = new Tab("Add Brand");
+        addTab.closableProperty().set(false);
+        addTab.onSelectionChangedProperty().set(event -> appController.getBrandController().addBrand());
+        getTabs().add(addTab);
+
     }
     private void homeView(){
         getTabs().clear();

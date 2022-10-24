@@ -3,6 +3,8 @@ package org.marcus.crm.client;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import org.marcus.crm.model.Brand;
+import org.marcus.crm.model.BrandTab;
 import org.marcus.crm.model.Customer;
 import org.marcus.crm.model.Order;
 
@@ -14,6 +16,7 @@ import java.net.http.HttpResponse;
 import java.sql.SQLException;
 import java.sql.SQLTimeoutException;
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -87,4 +90,44 @@ public class HTTPRequest {
         return orderList;
     }
 
+    public static List<BrandTab> getUniqueBrandNames() throws IOException, InterruptedException, SQLException{
+        HttpRequest request = HttpRequest.newBuilder()
+                .GET()
+                .uri(URI.create("http://localhost:8080/brands/unique"))
+                .setHeader("User-Agent", "CRMarcus Client")
+                .header("Content-Type", "application/json")
+                .build();
+        HttpResponse<String> response =
+                httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+        Gson gson = new GsonBuilder()
+                .setDateFormat("yyyy-MM-dd'T'HH:mm:ssz")
+                .create();
+
+        List<String> brandList = gson.fromJson(response.body(), new TypeToken<List<String>>(){}.getType());
+
+        List<BrandTab> brandTabs = new ArrayList<>();
+
+        for (String s : brandList) {
+            brandTabs.add(new BrandTab(s));
+        }
+
+
+        return brandTabs;
+    }
+
+    public static List<String> getAreaNamesByBrand(String currentBrand) throws IOException, InterruptedException, SQLException{
+        HttpRequest request = HttpRequest.newBuilder()
+                .GET()
+                .uri(URI.create("http://localhost:8080/brands/"+currentBrand+"/areaNames"))
+                .setHeader("User-Agent", "CRMarcus Client")
+                .header("Content-Type", "application/json")
+                .build();
+        HttpResponse<String> response =
+                httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+        Gson gson = new GsonBuilder()
+                .setDateFormat("yyyy-MM-dd'T'HH:mm:ssz")
+                .create();
+
+        return gson.fromJson(response.body(), new TypeToken<List<String>>(){}.getType());
+    }
 }

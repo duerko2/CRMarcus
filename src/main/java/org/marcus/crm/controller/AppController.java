@@ -17,6 +17,7 @@ public class AppController {
         this.crm=crm;
         insertController= new InsertController(this);
         customerController = new CustomerController(this);
+        brandController = new BrandController(this);
         this.tabs = new Tabs();
         tabs.setCurrentTab(Tab.HOME);
     }

@@ -27,7 +27,7 @@ public class MiddleView extends VBox implements ViewObserver {
                 break;
             }
             case BRANDS -> {
-                BrandView brandView = new BrandView();
+                BrandView brandView = new BrandView(appController.getBrandController());
                 brandView.alignmentProperty().set(Pos.CENTER);
                 getChildren().add(brandView);
                 break;
