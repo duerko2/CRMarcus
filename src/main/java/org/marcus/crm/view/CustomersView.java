@@ -33,8 +33,8 @@ public class CustomersView extends VBox implements ViewObserver{
     public void updateView(Subject subject) {
 
         getChildren().clear();
-        switch(customerController.getCustomerTabs().getCurrentTab()){
-            case ALLCUSTOMERS -> allCustomers();
+        switch(customerController.getCustomerTabs().getCurrentTab().getTabName()){
+            case "All Customers" -> allCustomers();
         }
     }
 

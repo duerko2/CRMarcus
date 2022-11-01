@@ -1,11 +1,9 @@
 package org.marcus.crm.view;
 
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import org.marcus.crm.client.HTTPRequest;
 import org.marcus.crm.controller.AppController;
-import org.marcus.crm.observer.Observer;
 import org.marcus.crm.observer.Subject;
 
 import java.io.IOException;
@@ -27,8 +25,7 @@ public class MiddleView extends VBox implements ViewObserver {
                 break;
             }
             case BRANDS -> {
-                BrandView brandView = new BrandView(appController.getBrandController());
-                brandView.alignmentProperty().set(Pos.CENTER);
+                AreaTabsView brandView = new AreaTabsView(appController.getBrandController());
                 getChildren().add(brandView);
                 break;
             }

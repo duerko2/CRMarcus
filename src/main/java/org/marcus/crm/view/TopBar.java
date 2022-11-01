@@ -16,29 +16,39 @@ public class TopBar extends TabPane {
 
         home = new Tab("Home");
         home.closableProperty().set(false);
-        home.onSelectionChangedProperty().set(e->
-                appController.home()
+        home.onSelectionChangedProperty().set(e-> {
+            if (home.isSelected())
+                appController.home();
+                }
         );
 
 
         customers = new Tab("Customers");
         customers.closableProperty().set(false);
-        customers.onSelectionChangedProperty().set(e->
-                appController.seeCustomers()
+        customers.onSelectionChangedProperty().set(e-> {
+                    if (customers.isSelected())
+                        appController.seeCustomers();
+                }
         );
 
 
         orders = new Tab("Orders");
         orders.closableProperty().set(false);
-        orders.onSelectionChangedProperty().set(e->
-                appController.seeOrders()
+        orders.onSelectionChangedProperty().set(e->{
+            if(orders.isSelected())
+                appController.seeOrders();
+                }
+
         );
 
 
         brands = new Tab("Brands");
         brands.closableProperty().set(false);
-        brands.onSelectionChangedProperty().set(e->
-                appController.seeBrands()
+        brands.onSelectionChangedProperty().set(e->{
+            if(brands.isSelected())
+                appController.seeBrands();
+                }
+
         );
 
         this.getTabs().add(home);

@@ -1,6 +1,18 @@
 package org.marcus.crm.model;
 
-public enum CustomerTab {
-    ALLCUSTOMERS,BYCOUNTRY,BYBRAND, ADDCUSTOMER, BYORDERS
+public class CustomerTab extends LeftTab{
+    public CustomerTab(String tabName) {
+        super(tabName);
+    }
+
+    @Override
+    public String getTabName() {
+        return this.tabName;
+    }
+
+    @Override
+    public void setTabName(String tabName) {
+        this.tabName=tabName;
+    }
 
 }

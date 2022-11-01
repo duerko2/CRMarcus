@@ -1,5 +1,7 @@
 package org.marcus.crm.view;
 
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.geometry.Side;
 import javafx.scene.control.Button;
@@ -11,17 +13,16 @@ import org.marcus.crm.model.*;
 import org.marcus.crm.observer.Observer;
 import org.marcus.crm.observer.Subject;
 
+import java.awt.event.ActionEvent;
+import java.util.ArrayList;
+import java.util.List;
+
 public class LeftBar extends TabPane implements ViewObserver {
     private AppController appController;
     private Tabs tabs;
-    private CustomerTabs customerTabs;
-    private BrandTabs brandTabs;
-
     public LeftBar(AppController appController) {
         this.appController=appController;
         this.tabs= appController.getTabs();
-        this.customerTabs=appController.getCustomerContoller().getCustomerTabs();
-        this.brandTabs=appController.getBrandController().getBrandTabs();
         setSide(Side.LEFT);
         tabs.attach(this);
     }
@@ -38,40 +39,45 @@ public class LeftBar extends TabPane implements ViewObserver {
     }
     private void customerView(){
         getTabs().clear();
-        Tab customers = new Tab("All Customers");
-        customers.closableProperty().set(false);
-        customers.onSelectionChangedProperty().set(event -> appController.getCustomerContoller().getCustomerTabs().setCurrentTab(CustomerTab.ALLCUSTOMERS));
-        Tab byCountry = new Tab("Add Customer");
-        byCountry.closableProperty().set(false);
-        byCountry.onSelectionChangedProperty().set(event -> appController.getCustomerContoller().getCustomerTabs().setCurrentTab(CustomerTab.ADDCUSTOMER));
-        Tab byBrand = new Tab("By Brand");
-        byBrand.closableProperty().set(false);
-        byBrand.onSelectionChangedProperty().set(event -> appController.getCustomerContoller().getCustomerTabs().setCurrentTab(CustomerTab.BYBRAND));
-        Tab byOrders = new Tab("By Orders");
-        byOrders.closableProperty().set(false);
-        byOrders.onSelectionChangedProperty().set(event -> appController.getCustomerContoller().getCustomerTabs().setCurrentTab(CustomerTab.BYORDERS));
 
+        for(LeftTab tab : appController.getCustomerContoller().getCustomerTabs().getTabs() ){
+            Tab newTab = new Tab(tab.getTabName());
+            newTab.closableProperty().set(false);
+            newTab.onSelectionChangedProperty().set(event -> {
+                if(newTab.isSelected()){
+                    appController.getCustomerContoller().getCustomerTabs().setCurrentTab(tab);
+                }
+            });
+            getTabs().add(newTab);
+        }
+        appController.getCustomerContoller().setCurrentTab(appController.getCustomerContoller().getCustomerTabs().getTabs().get(0));
 
-        getTabs().add(customers);
-        getTabs().add(byCountry);
-        getTabs().add(byBrand);
-        getTabs().add(byOrders);
     }
+
     private void brandView(){
         getTabs().clear();
-        for(BrandTab tab : brandTabs.getBrandTabs() ){
-            Tab newTab = new Tab(tab.getBrandName());
+        for(LeftTab tab : appController.getBrandController().getBrandTabs().getTabs() ){
+            Tab newTab = new Tab(tab.getTabName());
             newTab.closableProperty().set(false);
-            newTab.onSelectionChangedProperty().set(e->brandTabs.setCurrentTab(tab));
+            newTab.onSelectionChangedProperty().set(event -> {
+                if(newTab.isSelected()){
+                    appController.getBrandController().setCurrentTab(tab);
+                }
+            });
             getTabs().add(newTab);
-            System.out.println(tab.getBrandName());
         }
         Tab addTab = new Tab("Add Brand");
         addTab.closableProperty().set(false);
-        addTab.onSelectionChangedProperty().set(event -> appController.getBrandController().addBrand());
-        getTabs().add(addTab);
+        addTab.onSelectionChangedProperty().set(event -> {
+            if(addTab.isSelected()){
+                appController.getBrandController().addBrand();
+            }
+        });
 
-    }
+        // Sets the first tab
+        appController.getBrandController().setCurrentTab(appController.getBrandController().getBrandTabs().getTabs().get(0));
+        getTabs().add(addTab);
+  }
     private void homeView(){
         getTabs().clear();
     }

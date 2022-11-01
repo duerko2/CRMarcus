@@ -3,10 +3,7 @@ package org.marcus.crm.client;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-import org.marcus.crm.model.Brand;
-import org.marcus.crm.model.BrandTab;
-import org.marcus.crm.model.Customer;
-import org.marcus.crm.model.Order;
+import org.marcus.crm.model.*;
 
 import java.io.IOException;
 import java.net.URI;
@@ -90,7 +87,7 @@ public class HTTPRequest {
         return orderList;
     }
 
-    public static List<BrandTab> getUniqueBrandNames() throws IOException, InterruptedException, SQLException{
+    public static List<LeftTab> getUniqueBrandNames() throws IOException, InterruptedException, SQLException{
         HttpRequest request = HttpRequest.newBuilder()
                 .GET()
                 .uri(URI.create("http://localhost:8080/brands/unique"))
@@ -105,7 +102,7 @@ public class HTTPRequest {
 
         List<String> brandList = gson.fromJson(response.body(), new TypeToken<List<String>>(){}.getType());
 
-        List<BrandTab> brandTabs = new ArrayList<>();
+        List<LeftTab> brandTabs = new ArrayList<>();
 
         for (String s : brandList) {
             brandTabs.add(new BrandTab(s));
