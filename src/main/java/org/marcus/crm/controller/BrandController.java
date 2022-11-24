@@ -54,6 +54,8 @@ public class BrandController {
 
 
     public void setCurrentTab(LeftTab tab) {
+
+        brandTabs.setAddTab(false);
         // Areas are updated to the current brand.
         List<String> areaNames;
         try {
